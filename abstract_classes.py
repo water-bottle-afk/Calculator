@@ -1,6 +1,7 @@
 __author__ = "Nadav"
 
 from abc import ABC, abstractmethod
+from numbers import Number
 
 class ExpressionElement(ABC):
     """
@@ -10,7 +11,7 @@ class ExpressionElement(ABC):
     """
 
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self) -> Number:
         """ An Abstract method for evaluating the expression. """
         ...
 
@@ -30,7 +31,7 @@ class Operand(ExpressionElement):
 
         self.number = number
 
-    def evaluate(self):
+    def evaluate(self) -> Number:
         """ :returns the value of the number. """
         return self.number
 
