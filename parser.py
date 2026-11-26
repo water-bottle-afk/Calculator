@@ -7,6 +7,8 @@ from calc_config import *
 
 class ParserToBinaryExpression:
     """
+    A binary expression parser. A binary expression is an expression
+    which can be written with parentheses '()'.
     A class for parsing a string into a binary expression
     For example: '2+3*5' would become Add(2, Multiply(3, 5))
     """
@@ -72,6 +74,13 @@ class ParserToBinaryExpression:
             del self.lst_exercise[index_of_symbol]
             del self.lst_exercise[index_of_symbol]
 
+    def func(self):
+        self.relative_expression_indexes = {
+            '+' : [-1,1],
+            '-' : [-1,1],
+            '*' : [-1,1],
+            '/' : [-1,1]
+        }
 
 
 

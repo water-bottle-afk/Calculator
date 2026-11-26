@@ -1,5 +1,6 @@
 __author__ = "Nadav"
-
+""" A main module. """
+from operators import Add
 
 if __name__ == "__main__":
-    pass
+    print(Add(3,5).evaluate())

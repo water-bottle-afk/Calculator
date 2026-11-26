@@ -1,8 +1,12 @@
 __author__ = "Nadav"
 
+""" A module for the abstract classes. """
+
+
 from abc import ABC, abstractmethod
 from numbers import Number
 from calc_config import *
+
 
 class ExpressionElement(ABC):
     """
@@ -45,9 +49,9 @@ class Operator(ABC, ExpressionElement):
     """ An Abstract class for representing an operator. """
 
 
-
-    def __init__(self, operator_symbol):
+    def __init__(self, operator_symbol:str, relative_expression_indexes:list):
         self.operator_symbol = operator_symbol
+
 
     def get_priority(self) -> int:
         """ Returns the priority of the operator. """
@@ -57,6 +61,7 @@ class Operator(ABC, ExpressionElement):
                 return priority
 
         return 0 # TODO check if its ok to leave it or should handle here Invalid Input.
+
 
 
 
@@ -91,8 +96,7 @@ class UnaryOperator(ABC, Operator):
 
         super().__init__(operator_symbol)
         self.expression = expression
-        self.has_right_expression = has_right_expression
-        self.has_left_expression = has_left_expression
+
 
 
     def __str__(self) -> str:

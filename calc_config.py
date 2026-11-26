@@ -1,5 +1,5 @@
 __author__ = "Nadav"
-from operators import *
+from operators import Add, Subtract, Multiply, Divide
 from sys import stdin, stdout, stderr
 
 """ A module configuration. """
