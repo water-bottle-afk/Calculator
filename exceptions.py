@@ -4,7 +4,7 @@ __author__ = "Nadav"
 
 
 class InvalidBinaryExpression(Exception):
-    def __init__(self, message:str=""):
+    def __init__(self, message: str = ""):
         self.message = message
 
     def __str__(self) -> str:
@@ -12,7 +12,7 @@ class InvalidBinaryExpression(Exception):
 
 
 class InvalidUnaryExpression(Exception):
-    def __init__(self, message:str=""):
+    def __init__(self, message: str = ""):
         self.message = message
 
     def __str__(self) -> str:

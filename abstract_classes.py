@@ -2,7 +2,6 @@ __author__ = "Nadav"
 
 """ A module for the abstract classes. """
 
-
 from abc import ABC, abstractmethod
 from numbers import Number
 from calc_config import *
@@ -24,6 +23,7 @@ class ExpressionElement(ABC):
     def __str__(self) -> str:
         """ A string representation of the expression. """
         ...
+
 
 class Operand(ExpressionElement):
     """
@@ -48,10 +48,9 @@ class Operand(ExpressionElement):
 class Operator(ABC, ExpressionElement):
     """ An Abstract class for representing an operator. """
 
-
-    def __init__(self, operator_symbol:str, relative_expression_indexes:list):
+    def __init__(self, operator_symbol: str, priority: int):
         self.operator_symbol = operator_symbol
-
+        self.priority = priority
 
     def get_priority(self) -> int:
         """ Returns the priority of the operator. """
@@ -60,44 +59,36 @@ class Operator(ABC, ExpressionElement):
             if self.operator_symbol in symbols:
                 return priority
 
-        return 0 # TODO check if its ok to leave it or should handle here Invalid Input.
-
-
-
+        return 0  # TODO check if its ok to leave it or should handle here Invalid Input.
 
     def is_prior_to(self, other: Operator) -> bool:
         return priority_of_symbols[self.operator_symbol] > \
-                priority_of_symbols[other.operator_symbol]
+            priority_of_symbols[other.operator_symbol]
 
 
 class BinaryOperator(ABC, Operator):
     """ A class for representing a binary operator.
         A binary operator has its symbol, and two expression elements. """
 
-    def __init__(self, operator_symbol, expression_1: ExpressionElement,
+    def __init__(self, operator_symbol, priority: int,
+                 expression_1: ExpressionElement,
                  expression_2: ExpressionElement):
-
-        super().__init__(operator_symbol)
+        super().__init__(operator_symbol, priority)
         self.expression_1 = expression_1
         self.expression_2 = expression_2
-
-        self.has_right_expression = True
-        self.has_left_expression = True
 
     def __str__(self) -> str:
         """ A string representation. """
         return f"({self.operand1} {self.operator_symbol} {self.operand2})"
+
 
 class UnaryOperator(ABC, Operator):
     """ A class for representing a unary operator."""
 
     def __init__(self, operator_symbol, expression: ExpressionElement,
                  has_right_expression: bool, has_left_expression: bool):
-
         super().__init__(operator_symbol)
         self.expression = expression
-
-
 
     def __str__(self) -> str:
         """ A string representation. """
@@ -105,4 +96,3 @@ class UnaryOperator(ABC, Operator):
             return f"({self.operator_symbol} {self.expression})"
 
         return f"({self.expression} {self.operator_symbol})"
-

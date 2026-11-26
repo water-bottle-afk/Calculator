@@ -10,10 +10,11 @@ class Add(BinaryOperator):
         For Example: Add(3,5) represents 3+5."""
 
     symbol = "+"
+    priority = 1
+    relative_expression_indexes = (-1, 1)
 
-    def __init__(self, expression_1:ExpressionElement , expression_2:ExpressionElement):
-        super().__init__(Add.symbol, expression_1, expression_2)
-
+    def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
+        super().__init__(Add.symbol, Add.priority, expression_1, expression_2)
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
@@ -26,10 +27,12 @@ class Subtract(BinaryOperator):
         For Example: Subtract(3,5) represents 3-5."""
 
     symbol = "-"
+    priority = 1
+    relative_expression_indexes = (-1, 1)
 
-    def __init__(self, expression_1:ExpressionElement , expression_2:ExpressionElement):
-        super().__init__(Add.symbol, expression_1, expression_2)
-
+    def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
+        super().__init__(Subtract.symbol, Subtract.priority,
+                         expression_1, expression_2)
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
@@ -42,10 +45,11 @@ class Multiply(BinaryOperator):
         For Example: Multiply(3,5) represents 3*5."""
 
     symbol = "*"
+    priority = 2
+    relative_expression_indexes = (-1, 1)
 
-    def __init__(self, expression_1:ExpressionElement , expression_2:ExpressionElement):
-        super().__init__(Add.symbol, expression_1, expression_2)
-
+    def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
+        super().__init__(Multiply.symbol, Multiply.priority, expression_1, expression_2)
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
@@ -58,12 +62,12 @@ class Divide(BinaryOperator):
         For Example: Divide(3,5) represents 3/5."""
 
     symbol = "/"
+    priority = 2
+    relative_expression_indexes = (-1, 1)
 
-    def __init__(self, expression_1:ExpressionElement , expression_2:ExpressionElement):
-        super().__init__(Add.symbol, expression_1, expression_2)
-
+    def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
+        super().__init__(Divide.symbol, Divide.priority, expression_1, expression_2)
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
         return self.expression_1.evalue() / self.expression_2.evalue()
-
