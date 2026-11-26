@@ -1,5 +1,8 @@
-
+__author__ = "Nadav"
 from operators import *
+from sys import stdin, stdout, stderr
+
+""" A module configuration. """
 
 elements_by_symbol = {
             '+' : Add,
@@ -13,3 +16,7 @@ priority_of_symbols = {
         1 : ['+', '-'],
         2 : ['*', '/'],
     }
+
+calc_stdin = stdin
+calc_stdout = stdout
+calc_stderr = stderr
