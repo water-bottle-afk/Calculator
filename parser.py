@@ -30,7 +30,7 @@ class ExpressionParser:
             symbol, index = self.find_highest_priority_operator()
             if symbol is None:
                 raise Exception('No highest priority symbol found')
-                
+
 
         return self.separated_by_symbols[0]
 
