@@ -14,23 +14,19 @@ class Calculator:
         evaluates the expression and returns the result.
         """
 
-    def __init__(self, expression: str,
+    def __init__(self, exercise: str,
                  stdin=calc_stdin,
                  stdout=calc_stdout,
                  stderr=calc_stderr):
 
-        self.expression = expression
+        self.exercise = exercise
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
+        self.parser = ExpressionParser(self.exercise)
+        self.expression = self.parser.parse_to_expression()
+
 
     def calculate(self):
-        try:
-            expression = ExpressionParser(self.expression).parse_to_expression()
-            return expression.evaluate()
+        return self.expression.evaluate()
 
-        except InvalidBinaryExpression as e:
-            ...
-
-        except Exception as e:
-            print(f"generic error {e}")
