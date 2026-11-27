@@ -23,7 +23,8 @@ class Operand(ExpressionElement):
         try:
             return float(buffer)
         except ValueError:
-            print("Value error! The Exercise must contain numbers and symbols! ", file=calc_stderr)
+            print(f"Value error! The Exercise must contain numbers and symbols only!"
+                  f" tried to numberize {buffer}", file=calc_stderr)
             exit(1) #TODO: add error/Exception/exit values
 
 

@@ -25,7 +25,7 @@ class ExpressionParser:
             Add: ADD_SYMBOL,
             Subtract: SUBTRACT_SYMBOL,
             Multiply: MULTIPLY_SYMBOL,
-            Divide: DIVIDE_PRIORITY
+            Divide: DIVIDE_SYMBOL
         }
 
     def get_all_symbols(self) -> list:
@@ -71,12 +71,19 @@ class ExpressionParser:
                                           symbol_index: int):
 
         """ Replaces the elements in the separated list with the new expression element """
-        elements_poped = 0
+        left_elements_poped = 0  #
         self.separated_by_symbols[symbol_index] = new_expression
         for relative_index in type(new_expression).relative_expression_indexes:
-            self.separated_by_symbols.pop(symbol_index+relative_index)
-            elements_poped += 1
+            self.separated_by_symbols.pop(symbol_index - left_elements_poped + relative_index)
+            if relative_index < 0:
+                left_elements_poped += 1
 
+        # for example:
+        # 0   1   2   3   4      (indexes)
+        # 2   *   3   +   1      (the exercise)
+        # 2  Mul  3   +   1      (del 2)
+        # Mul 3   +  1           (del 3)
+        # Mul +   1
 
     def separate_exercise_by_symbols(self) -> list:
         """ Returns a list of the exercises separated by symbols
