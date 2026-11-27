@@ -1,6 +1,7 @@
 __author__ = "Nadav"
 
 import sys
+from operator import index
 from typing import Tuple
 
 from abstract_classes import ExpressionElement, Operator, UnaryOperator
@@ -18,15 +19,20 @@ class ExpressionParser:
 
     def __init__(self, exercise: str):
         self.exercise = exercise
-        self.lst_exercise = []
+        self.separated_by_symbols = []
 
-    def parse_to_expression(self) -> list[ExpressionElement]:
+    def parse_to_expression(self) -> ExpressionElement:
         """ Returns the parsed expression """
 
-        separated = self.separate_exercise_by_symbols()
+        self.separated_by_symbols = self.separate_exercise_by_symbols()
 
+        while len(self.separated_by_symbols) > 1:
+            symbol, index = self.find_highest_priority_operator()
+            if symbol is None:
+                raise Exception('No highest priority symbol found')
+                
 
-        return separated
+        return self.separated_by_symbols[0]
 
     def separate_exercise_by_symbols(self) -> list:
         """ Returns a list of the exercises separated by symbols
@@ -50,38 +56,25 @@ class ExpressionParser:
 
         return separated
 
-    @staticmethod
-    def get_all_symbols():
-        symbols = []
-        for values in priorities.values():
-            for value in values:
-                symbols.append(value)
-
-        return symbols
-
-    def parse_exercise_by_symbol(self, symbol: str, index_of_symbol: int) -> list:
-        ...
-
 
 
     def find_highest_priority_operator(self):
         """ Returns the index of the highest priority symbol in exercise """
 
-        priorities_keys = sorted(list(priorities.keys()), reverse=True)
+        priority_values = sorted(list(priorities.keys()), reverse=True)
 
-        for priority in priorities_keys:  # From highest Priority to lowest
-            symbol, idx = ExpressionParser.symbol_from_list_in_exercise(self.exercise, priorities[priority])
+        for priority in priority_values:  # From highest Priority to lowest
+            symbol, index = self.symbol_from_list_in_exercise(priorities[priority])
             if symbol != '':
-                pass
+                return symbol, index
 
-        return None
+        return None, None
 
-    @staticmethod
-    def symbol_from_list_in_exercise(exercise: str, symbols_list: list) -> Tuple[str, int]:
+    def symbol_from_list_in_exercise(self, symbols_list: list) -> Tuple[str, int]:
         """ Gets a list of symbols, returns the symbol and its index in the exercise """
         for symbol in symbols_list:
-            if symbol in exercise:
-                return symbol, exercise.index(symbol)
+            if symbol in self.separated_by_symbols:
+                return symbol, self.separated_by_symbols.index(symbol)
 
         return '', -1
 
