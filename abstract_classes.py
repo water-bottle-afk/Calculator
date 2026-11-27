@@ -25,27 +25,8 @@ class ExpressionElement(ABC):
         ...
 
 
-class Operand(ExpressionElement):
-    """
-    A class for representing an Operand (Number).
-    A number is an ExpressionElement.
-    """
 
-    def __init__(self, number):
-        # A number could be int, float, etc.
-
-        self.number = number
-
-    def evaluate(self) -> Number:
-        """ :returns the value of the number. """
-        return self.number
-
-    def __str__(self) -> str:
-        """ A string representation. """
-        return str(self.number)
-
-
-class Operator(ABC, ExpressionElement):
+class Operator(ExpressionElement):
     """ An Abstract class for representing an operator. """
 
     def __init__(self, operator_symbol: str, priority: int):
@@ -66,7 +47,7 @@ class Operator(ABC, ExpressionElement):
             priority_of_symbols[other.operator_symbol]
 
 
-class BinaryOperator(ABC, Operator):
+class BinaryOperator(Operator):
     """ A class for representing a binary operator.
         A binary operator has its symbol, and two expression elements. """
 
@@ -82,7 +63,7 @@ class BinaryOperator(ABC, Operator):
         return f"({self.operand1} {self.operator_symbol} {self.operand2})"
 
 
-class UnaryOperator(ABC, Operator):
+class UnaryOperator(Operator):
     """ A class for representing a unary operator."""
 
     def __init__(self, operator_symbol, expression: ExpressionElement,

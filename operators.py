@@ -2,7 +2,43 @@ __author__ = "Nadav"
 
 from abstract_classes import BinaryOperator, ExpressionElement
 from numbers import Number
+from calc_config import *
 
+class Operand(ExpressionElement):
+    """
+    A class for representing an Operand (Number).
+    A number is an ExpressionElement.
+    """
+
+    def __init__(self, number:str):
+        # A number could be int, float, etc.
+        self.number = Operand.parse_from_str_to_number(number)
+
+    @staticmethod
+    def parse_from_str_to_number(buffer: str) -> int | float | None:
+        try:
+            return int(buffer)
+        except ValueError:
+            pass
+
+        try:
+            return float(buffer)
+        except ValueError:
+            print("Value error! The Exercise must contain numbers and symbols! ", file=calc_stderr)
+            exit(1) #TODO: add error/Exception/exit values
+
+
+    def evaluate(self) -> int | float:
+        """ :returns the value of the number. """
+        return self.number
+
+    def __str__(self) -> str:
+        """ A string representation. """
+        return str(self.number)
+
+    def __repr__(self) -> str:
+        """ A string representation. """
+        return str(self.number)
 
 class Add(BinaryOperator):
     """ An Add operator (+).
@@ -18,7 +54,7 @@ class Add(BinaryOperator):
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
-        return self.expression_1.evalue() + self.expression_2.evalue()
+        return self.expression_1.evaluate() + self.expression_2.evaluate()
 
 
 class Subtract(BinaryOperator):
@@ -36,7 +72,7 @@ class Subtract(BinaryOperator):
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
-        return self.expression_1.evalue() - self.expression_2.evalue()
+        return self.expression_1.evaluate() - self.expression_2.evaluate()
 
 
 class Multiply(BinaryOperator):
@@ -53,7 +89,7 @@ class Multiply(BinaryOperator):
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
-        return self.expression_1.evalue() * self.expression_2.evalue()
+        return self.expression_1.evaluate() * self.expression_2.evaluate()
 
 
 class Divide(BinaryOperator):
@@ -70,4 +106,4 @@ class Divide(BinaryOperator):
 
     def evaluate(self) -> Number:
         """ Returns the evaluation of this operator """
-        return self.expression_1.evalue() / self.expression_2.evalue()
+        return self.expression_1.evaluate() / self.expression_2.evaluate()
