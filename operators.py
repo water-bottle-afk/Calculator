@@ -1,7 +1,6 @@
 __author__ = "Nadav"
 
 from abstract_classes import BinaryOperator, ExpressionElement
-from numbers import Number
 from calc_config import *
 
 class Operand(ExpressionElement):
@@ -52,7 +51,7 @@ class Add(BinaryOperator):
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
         super().__init__(Add.symbol, Add.priority, expression_1, expression_2)
 
-    def evaluate(self) -> Number:
+    def evaluate(self):
         """ Returns the evaluation of this operator """
         return self.expression_1.evaluate() + self.expression_2.evaluate()
 
@@ -70,7 +69,7 @@ class Subtract(BinaryOperator):
         super().__init__(Subtract.symbol, Subtract.priority,
                          expression_1, expression_2)
 
-    def evaluate(self) -> Number:
+    def evaluate(self):
         """ Returns the evaluation of this operator """
         return self.expression_1.evaluate() - self.expression_2.evaluate()
 
@@ -87,7 +86,7 @@ class Multiply(BinaryOperator):
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
         super().__init__(Multiply.symbol, Multiply.priority, expression_1, expression_2)
 
-    def evaluate(self) -> Number:
+    def evaluate(self):
         """ Returns the evaluation of this operator """
         return self.expression_1.evaluate() * self.expression_2.evaluate()
 
@@ -104,6 +103,6 @@ class Divide(BinaryOperator):
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
         super().__init__(Divide.symbol, Divide.priority, expression_1, expression_2)
 
-    def evaluate(self) -> Number:
+    def evaluate(self):
         """ Returns the evaluation of this operator """
         return self.expression_1.evaluate() / self.expression_2.evaluate()

@@ -7,6 +7,7 @@ from typing import Tuple
 from abstract_classes import ExpressionElement, Operator, UnaryOperator
 from operators import *
 from calc_config import *
+from exceptions import *
 
 
 class ExpressionParser:
@@ -29,7 +30,8 @@ class ExpressionParser:
         while len(self.separated_by_symbols) > 1:
             symbol, index = self.find_highest_priority_operator()
             if symbol is None:
-                raise Exception('No highest priority symbol found')
+                raise InvalidExpressionError('No symbol found')
+
 
 
         return self.separated_by_symbols[0]
