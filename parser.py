@@ -1,7 +1,6 @@
 __author__ = "Nadav"
 
 import sys
-from operator import index
 from typing import Tuple
 
 from abstract_classes import ExpressionElement, Operator, UnaryOperator
@@ -22,19 +21,62 @@ class ExpressionParser:
         self.exercise = exercise
         self.separated_by_symbols = []
 
+        self.classes_symbols = {
+            Add: ADD_SYMBOL,
+            Subtract: SUBTRACT_SYMBOL,
+            Multiply: MULTIPLY_SYMBOL,
+            Divide: DIVIDE_PRIORITY
+        }
+
+    def get_all_symbols(self) -> list:
+        """ Returns a list of all of the symbols """
+        symbols = []
+        return list(set(list(self.classes_symbols.values())))
+
     def parse_to_expression(self) -> ExpressionElement:
         """ Returns the parsed expression """
 
         self.separated_by_symbols = self.separate_exercise_by_symbols()
 
         while len(self.separated_by_symbols) > 1:
+            # find highest priority operator
             symbol, index = self.find_highest_priority_operator()
             if symbol is None:
                 raise InvalidExpressionError('No symbol found')
 
+            # create a new expression
+            new_element_expression = self.create_operator_by_symbol(symbol, index)
+            if new_element_expression is None:
+                raise InvalidExpressionError('No expression found')
 
+            # replace it with the current elements
+            self.replace_elements_with_an_operator(new_element_expression, index)
 
         return self.separated_by_symbols[0]
+
+    def create_operator_by_symbol(self, symbol: str, index: int) -> Operator:
+        """ Singleton for creating the expression element by symbol"""
+
+        for cls, cls_symbol in self.classes_symbols.items():
+            if symbol == cls_symbol:
+                relative_expression_elements_index = cls.relative_expression_indexes
+                elements = [self.separated_by_symbols[index + relative_index]
+                            for relative_index in relative_expression_elements_index]
+                return cls(*elements)
+
+        return None
+
+    def replace_elements_with_an_operator(self,
+                                          new_expression: Operator,
+                                          symbol_index: int):
+
+        """ Replaces the elements in the separated list with the new expression element """
+        elements_poped = 0
+        self.separated_by_symbols[symbol_index] = new_expression
+        for relative_index in type(new_expression).relative_expression_indexes:
+            self.separated_by_symbols.pop(symbol_index+relative_index)
+            elements_poped += 1
+
 
     def separate_exercise_by_symbols(self) -> list:
         """ Returns a list of the exercises separated by symbols
@@ -43,7 +85,7 @@ class ExpressionParser:
 
         buffer = ''
         separated = []
-        symbols = ExpressionParser.get_all_symbols()
+        symbols = self.get_all_symbols()
 
         for ch in self.exercise:
             if ch not in symbols:
@@ -57,8 +99,6 @@ class ExpressionParser:
             separated.append(Operand(buffer))
 
         return separated
-
-
 
     def find_highest_priority_operator(self):
         """ Returns the index of the highest priority symbol in exercise """
@@ -79,48 +119,3 @@ class ExpressionParser:
                 return symbol, self.separated_by_symbols.index(symbol)
 
         return '', -1
-
-    def sort_priority_of_symbols(self):
-        items = set(Operator.priority_of_symbols.values()).copy()
-        items = list(items)
-        items.sort(key=Operator.priority_of_symbols.keys(), reverse=True)
-
-    def create_expression_by_symbol(self, symbol: str, index_of_symbol: int) -> ExpressionElement:
-        """ Singleton to create an expression by symbol """
-        cls = elements_by_symbol[symbol]
-
-        if issubclass(cls, BinaryOperator):
-            expression_1 = self.lst_exercise[index_of_symbol - 1]
-            expression_2 = self.lst_exercise[index_of_symbol + 1]
-
-            self.remove_expressions_from_exercise(cls, index_of_symbol)
-
-            return cls(expression_1, expression_2)
-
-        if issubclass(cls, UnaryOperator):
-
-            if cls.has_right_expression():
-                expression_1 = self.lst_exercise[index_of_symbol + 1]
-                return cls(expression_1)
-            else:
-                expression_1 = self.lst_exercise[index_of_symbol - 1]
-                return cls(expression_1)
-
-        return None
-
-
-def remove_expressions_from_exercise(self, cls, index_of_symbol: int):
-    if issubclass(cls, BinaryOperator):
-        del self.lst_exercise[index_of_symbol]
-        del self.lst_exercise[index_of_symbol]
-        del self.lst_exercise[index_of_symbol]
-
-
-def func(self):
-    # dict:
-    # (symbol, priority) : [relative_expression_indexes]
-    self.relative_expression_indexes = {
-        (Add.symbol, Add.priority): Add.relative_expression_indexes,
-        (Subtract.symbol, Subtract.priority): Subtract.relative_expression_indexes,
-        (Multiply.symbol, Multiply.priority): Multiply.relative_expression_indexes,
-        (Divide.symbol, Divide.priority): Divide.relative_expression_indexes}

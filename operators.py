@@ -44,12 +44,10 @@ class Add(BinaryOperator):
         It's a binary operator with two operands.
         For Example: Add(3,5) represents 3+5."""
 
-    symbol = "+"
-    priority = 1
     relative_expression_indexes = (-1, 1)
 
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
-        super().__init__(Add.symbol, Add.priority, expression_1, expression_2)
+        super().__init__(ADD_SYMBOL, ADD_PRIORITY, expression_1, expression_2)
 
     def evaluate(self):
         """ Returns the evaluation of this operator """
@@ -61,12 +59,10 @@ class Subtract(BinaryOperator):
         It's a binary operator with two operands.
         For Example: Subtract(3,5) represents 3-5."""
 
-    symbol = "-"
-    priority = 1
     relative_expression_indexes = (-1, 1)
 
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
-        super().__init__(Subtract.symbol, Subtract.priority,
+        super().__init__(SUBTRACT_SYMBOL, SUBTRACT_PRIORITY,
                          expression_1, expression_2)
 
     def evaluate(self):
@@ -79,12 +75,10 @@ class Multiply(BinaryOperator):
         It's a binary operator with two operands.
         For Example: Multiply(3,5) represents 3*5."""
 
-    symbol = "*"
-    priority = 2
     relative_expression_indexes = (-1, 1)
 
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
-        super().__init__(Multiply.symbol, Multiply.priority, expression_1, expression_2)
+        super().__init__(MULTIPLY_SYMBOL, MULTIPLY_PRIORITY, expression_1, expression_2)
 
     def evaluate(self):
         """ Returns the evaluation of this operator """
@@ -101,7 +95,7 @@ class Divide(BinaryOperator):
     relative_expression_indexes = (-1, 1)
 
     def __init__(self, expression_1: ExpressionElement, expression_2: ExpressionElement):
-        super().__init__(Divide.symbol, Divide.priority, expression_1, expression_2)
+        super().__init__(DIVIDE_SYMBOL,DIVIDE_PRIORITY, expression_1, expression_2)
 
     def evaluate(self):
         """ Returns the evaluation of this operator """
