@@ -25,6 +25,7 @@ class ExpressionParser:
 
         separated = self.separate_exercise_by_symbols()
 
+
         return separated
 
     def separate_exercise_by_symbols(self) -> list:
@@ -49,7 +50,6 @@ class ExpressionParser:
 
         return separated
 
-
     @staticmethod
     def get_all_symbols():
         symbols = []
@@ -59,31 +59,10 @@ class ExpressionParser:
 
         return symbols
 
-    def parse_exercise_to_list_of_elements(self):
-        ...
-
     def parse_exercise_by_symbol(self, symbol: str, index_of_symbol: int) -> list:
         ...
 
-    def find_index_of_closest_symbol(self, index: int = -1, start_search_from_right: bool = True):
-        """ Returns a the index of closet symbols.
-            to check from After the symbol -> search from right = True,
-            to check from Before the symbol -> search from right = False.
-            if not found a symbol returns None.
-            """
 
-        # Gathering the symbols
-
-        symbols = ExpressionParser.get_all_symbols()
-
-        closest_index = -1
-        end = len(self.exercise) if start_search_from_right else 0
-        step = 1 if start_search_from_right else -1
-        for i in range(index, end, step):
-            if i != index and self.exercise[i] in symbols:
-                return i
-
-        return None
 
     def find_highest_priority_operator(self):
         """ Returns the index of the highest priority symbol in exercise """
